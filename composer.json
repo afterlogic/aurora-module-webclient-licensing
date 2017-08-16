@@ -1,0 +1,12 @@
+{
+	"name": "afterlogic/aurora-module-webclient-licensing",
+	"type": "aurora-module",
+	"require":{
+		"afterlogic/aurora-framework": "~0.5"
+	},
+	"extra": {
+		"installer-name": "LicensingWebclient",
+		"include-in-mobile": false,
+		"include-in-desktop": true
+	}
+}
