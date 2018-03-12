@@ -11,6 +11,8 @@
 					<input class="input enlarged" type="text" data-bind="value: licenseKey, valueUpdate: 'afterkeydown', onEnter: save" />
 				</span>
 			</div>
+			<div class="hint" data-bind="visible: showGetKeyHint, i18n: {'key': '%MODULENAME%/LABEL_LICENSING_GET_KEY_HINT', 'type': 'html'}"></div>
+			
 			<div class="row">
 				<span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_LICENSING_USERS_NUMBER'}"></span>
 				<span class="value">

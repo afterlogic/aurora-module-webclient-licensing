@@ -27,6 +27,7 @@ function CLicensingAdminSettingsView()
 	
 	this.usersNumber = ko.observable(0);
 	this.licenseType = ko.observable('');
+	this.showGetKeyHint = ko.observable(Settings.LicenseKey === '');
 }
 
 _.extendOwn(CLicensingAdminSettingsView.prototype, CAbstractSettingsFormView.prototype);
@@ -89,6 +90,11 @@ CLicensingAdminSettingsView.prototype.getLicenseInfo = function()
 					}
 					break;
 			}
+			this.showGetKeyHint(false);
+		}
+		else
+		{
+			this.showGetKeyHint(true);
 		}
 		this.licenseType(sLicenseType);
 	}, this);
