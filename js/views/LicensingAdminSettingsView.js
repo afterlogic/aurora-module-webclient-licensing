@@ -27,7 +27,11 @@ function CLicensingAdminSettingsView()
 	
 	this.usersNumber = ko.observable(0);
 	this.licenseType = ko.observable('');
-	this.showGetKeyHint = ko.observable(Settings.LicenseKey === '');
+	
+	this.sTrialKeyHint = Settings.TrialKeyLink ? TextUtils.i18n('%MODULENAME%/LABEL_LICENSING_TRIAL_KEY_HINT', { 'LINK' : Settings.TrialKeyLink }) : '';
+	this.sPermanentKeyHint = Settings.PermanentKeyLink ? TextUtils.i18n('%MODULENAME%/LABEL_LICENSING_PERMANENT_KEY_HINT', { 'LINK' : Settings.PermanentKeyLink }) : '';
+	
+	this.showTrialKeyHint = ko.observable(Settings.LicenseKey === '' && this.sTrialKeyHint !== '');
 }
 
 _.extendOwn(CLicensingAdminSettingsView.prototype, CAbstractSettingsFormView.prototype);
@@ -53,6 +57,7 @@ CLicensingAdminSettingsView.prototype.getLicenseInfo = function()
 			sLicenseType = TextUtils.i18n('%MODULENAME%/LABEL_TYPE_INVALID'),
 			oData = oResponse && oResponse.Result
 		;
+		
 		if (oData)
 		{
 			switch (oData.Type)
@@ -90,12 +95,17 @@ CLicensingAdminSettingsView.prototype.getLicenseInfo = function()
 					}
 					break;
 			}
-			this.showGetKeyHint(false);
+			this.showTrialKeyHint(false);
 		}
 		else
 		{
-			this.showGetKeyHint(true);
+			if (Settings.LicenseKey === '')
+			{
+				sLicenseType = TextUtils.i18n('%MODULENAME%/LABEL_TYPE_NOT_SET');
+			}
+			this.showTrialKeyHint(this.sTrialKeyHint !== '');
 		}
+		
 		this.licenseType(sLicenseType);
 	}, this);
 };

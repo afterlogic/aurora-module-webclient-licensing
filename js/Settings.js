@@ -11,6 +11,8 @@ module.exports = {
 	HashModuleName: 'licensing',
 	
 	LicenseKey: '',
+	TrialKeyLink: '',
+	PermanentKeyLink: '',
 	
 	/**
 	 * Initializes settings from AppData object sections.
@@ -19,11 +21,21 @@ module.exports = {
 	 */
 	init: function (oAppData)
 	{
-		var oAppDataSection = oAppData[this.ServerModuleName];
-		
-		if (!_.isEmpty(oAppDataSection))
+		var 
+			oModuleDataSection = oAppData['%ModuleName%'],
+			oServerModuleDataSection = oAppData[this.ServerModuleName]
+		;
+		console.log(oServerModuleDataSection);
+		console.log(oModuleDataSection);
+		if (!_.isEmpty(oServerModuleDataSection))
 		{
-			this.LicenseKey = Types.pString(oAppDataSection.LicenseKey, this.LicenseKey);
+			this.LicenseKey = Types.pString(oServerModuleDataSection.LicenseKey, this.LicenseKey);
+		}
+		
+		if (!_.isEmpty(oModuleDataSection))
+		{
+			this.TrialKeyLink = Types.pString(oModuleDataSection.TrialKeyLink, this.TrialKeyLink);
+			this.PermanentKeyLink = Types.pString(oModuleDataSection.PermanentKeyLink, this.PermanentKeyLink);
 		}
 	},
 	
