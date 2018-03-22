@@ -25,8 +25,7 @@ module.exports = {
 			oModuleDataSection = oAppData['%ModuleName%'],
 			oServerModuleDataSection = oAppData[this.ServerModuleName]
 		;
-		console.log(oServerModuleDataSection);
-		console.log(oModuleDataSection);
+		
 		if (!_.isEmpty(oServerModuleDataSection))
 		{
 			this.LicenseKey = Types.pString(oServerModuleDataSection.LicenseKey, this.LicenseKey);
