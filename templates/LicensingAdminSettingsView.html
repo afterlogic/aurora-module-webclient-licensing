@@ -1,14 +1,14 @@
 <div class="panel_top">
 	<h2 class="settings_heading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_SETTINGS_TAB'}"></h2>
 </div>
-<div class="panel_center">
+<div class="panel_center LicensingWebclient">
 	<div class="fields">
 		<div class="fieldset">
 			<div class="hint" data-bind="i18n: {'key': '%MODULENAME%/LABEL_LICENSING_HINT'}"></div>
-			<div class="row">
+			<div class="row flex">
 				<span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_LICENSING_KEY'}"></span>
 				<span class="value">
-					<textarea class="input enlarged" data-bind="value: licenseKey, valueUpdate: 'afterkeydown', onEnter: save"></textarea>
+					<textarea class="input" data-bind="value: licenseKey, valueUpdate: 'afterkeydown', onEnter: save"></textarea>
 				</span>
 			</div>
 			<div class="hint" data-bind="visible: showTrialKeyHint, html: sTrialKeyHint"></div>
