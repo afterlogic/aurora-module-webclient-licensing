@@ -8,6 +8,7 @@ var
 	Types = require('%PathToCoreWebclientModule%/js/utils/Types.js'),
 	
 	Ajax = require('%PathToCoreWebclientModule%/js/Ajax.js'),
+	Api = require('%PathToCoreWebclientModule%/js/Api.js'),
 	ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
 	Settings = require('modules/%ModuleName%/js/Settings.js'),
 	
@@ -45,7 +46,14 @@ CLicensingAdminSettingsView.prototype.ViewTemplate = '%ModuleName%_LicensingAdmi
 CLicensingAdminSettingsView.prototype.onRouteChild = function (aParams)
 {
 	Ajax.send('Core', 'GetTotalUsersCount', {}, function (oResponse) {
-		this.usersNumber(oResponse ? Types.pInt(oResponse.Result) : 0);
+		if (oResponse && oResponse.Result)
+		{
+			this.usersNumber(Types.pInt(oResponse.Result));
+		}
+		else
+		{
+			Api.showErrorByCode(oResponse);
+		}
 	}, this);
 	this.getLicenseInfo();
 };
