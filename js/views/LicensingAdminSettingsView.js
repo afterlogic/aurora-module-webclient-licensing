@@ -46,9 +46,9 @@ CLicensingAdminSettingsView.prototype.ViewTemplate = '%ModuleName%_LicensingAdmi
 CLicensingAdminSettingsView.prototype.onRouteChild = function (aParams)
 {
 	Ajax.send('Core', 'GetTotalUsersCount', {}, function (oResponse) {
-		if (oResponse && oResponse.Result)
+		if (oResponse && Types.isNumber(oResponse.Result) && oResponse.Result >= 0)
 		{
-			this.usersNumber(Types.pInt(oResponse.Result));
+			this.usersNumber(oResponse.Result);
 		}
 		else
 		{
