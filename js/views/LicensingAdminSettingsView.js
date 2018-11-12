@@ -9,6 +9,7 @@ var
 	
 	Ajax = require('%PathToCoreWebclientModule%/js/Ajax.js'),
 	Api = require('%PathToCoreWebclientModule%/js/Api.js'),
+	Screens = require('%PathToCoreWebclientModule%/js/Screens.js'),
 	ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
 	Settings = require('modules/%ModuleName%/js/Settings.js'),
 	
@@ -150,5 +151,38 @@ CLicensingAdminSettingsView.prototype.setAccessLevel = function (sEntityType, iE
 {
 	this.visible(sEntityType === '');
 };
+
+CLicensingAdminSettingsView.prototype.onResponse = function (oResponse, oRequest)
+{
+	this.isSaving(false);
+	if (!oResponse.Result)
+	{
+		Api.showErrorByCode(oResponse, TextUtils.i18n('COREWEBCLIENT/ERROR_SAVING_SETTINGS_FAILED'));
+	}
+	else
+	{
+		var oParameters = oRequest.Parameters;
+		
+		this.updateSavedState();
+
+		this.applySavedValues(oParameters);
+		if (Object.keys(oResponse.SubscriptionsResult).length > 0)
+		{
+			var aErrorMessages = _.map(
+				oResponse.SubscriptionsResult, 
+				function (obj) { 
+					return obj.ErrorMessage 
+				}
+			);
+
+			Screens.showError(TextUtils.i18n('COREWEBCLIENT/REPORT_SETTINGS_UPDATE_SUCCESS') + '[' + aErrorMessages.join(', ') + ']');
+		}
+		else
+		{
+			Screens.showReport(TextUtils.i18n('COREWEBCLIENT/REPORT_SETTINGS_UPDATE_SUCCESS'));
+		}
+	}
+
+}
 
 module.exports = new CLicensingAdminSettingsView();
