@@ -166,12 +166,12 @@ CLicensingAdminSettingsView.prototype.onResponse = function (oResponse, oRequest
 		this.updateSavedState();
 
 		this.applySavedValues(oParameters);
-		if (Object.keys(oResponse.SubscriptionsResult).length > 0)
+		if (oResponse.SubscriptionsResult && Object.keys(oResponse.SubscriptionsResult).length > 0)
 		{
 			var aErrorMessages = _.map(
 				oResponse.SubscriptionsResult, 
 				function (obj) { 
-					return obj.ErrorMessage 
+					return obj.ErrorMessage;
 				}
 			);
 
