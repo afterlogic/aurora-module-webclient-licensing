@@ -11,6 +11,8 @@ var
 	Api = require('%PathToCoreWebclientModule%/js/Api.js'),
 	Screens = require('%PathToCoreWebclientModule%/js/Screens.js'),
 	ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
+	UserSettings = require('%PathToCoreWebclientModule%/js/Settings.js'),
+	
 	Settings = require('modules/%ModuleName%/js/Settings.js'),
 	
 	CAbstractSettingsFormView = ModulesManager.run('AdminPanelWebclient', 'getAbstractSettingsFormViewClass')
@@ -46,16 +48,20 @@ CLicensingAdminSettingsView.prototype.ViewTemplate = '%ModuleName%_LicensingAdmi
  */
 CLicensingAdminSettingsView.prototype.onRouteChild = function (aParams)
 {
-	Ajax.send('Core', 'GetTotalUsersCount', {}, function (oResponse) {
-		if (oResponse && Types.isNumber(oResponse.Result) && oResponse.Result >= 0)
-		{
-			this.usersNumber(oResponse.Result);
-		}
-		else
-		{
-			Api.showErrorByCode(oResponse);
-		}
-	}, this);
+	var bDbNotConfigured = (UserSettings.DbLogin === '' || UserSettings.DbName === '' || UserSettings.DbHost === '');
+	if (!bDbNotConfigured)
+	{
+		Ajax.send('Core', 'GetTotalUsersCount', {}, function (oResponse) {
+			if (oResponse && Types.isNumber(oResponse.Result) && oResponse.Result >= 0)
+			{
+				this.usersNumber(oResponse.Result);
+			}
+			else
+			{
+				Api.showErrorByCode(oResponse);
+			}
+		}, this);
+	}
 	this.getLicenseInfo();
 };
 
