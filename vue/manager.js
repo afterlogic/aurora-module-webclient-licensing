@@ -1,4 +1,9 @@
+import settings from "../../LicensingWebclient/vue/settings";
+
 export default {
+	init (appData) {
+		settings.init(appData)
+	},
 	getAdminSystemTabs () {
 		return [
 			{
