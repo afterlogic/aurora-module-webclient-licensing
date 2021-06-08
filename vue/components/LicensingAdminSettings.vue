@@ -47,7 +47,6 @@
 
 <script>
 import webApi from "../../../AdminPanelWebclient/vue/src/utils/web-api";
-//import TextUtils from "../../../CoreWebclient/js/utils/Text.js"
 import settings from "../../../LicensingWebclient/vue/settings";
 import notification from "../../../AdminPanelWebclient/vue/src/utils/notification";
 import errors from "../../../AdminPanelWebclient/vue/src/utils/errors";
@@ -137,7 +136,6 @@ export default {
         moduleName: 'Core',
         methodName: 'GetTotalUsersCount',
       }).then(result => {
-        console.log(result, 'GetTotalUsersCount')
         if (result !== false) {
           this.sUserCount = result
         }
