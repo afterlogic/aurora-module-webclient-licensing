@@ -121,15 +121,14 @@ export default {
                 }
                 break;
             }
-            console.log(this.sLicenseType, 'this.sLicenseType')
           }
           else
           {
-           /* if (Settings.LicenseKey === '')
+            if (settings.LicenseKey === '')
             {
-              this.sLicenseType = TextUtils.i18n('%MODULENAME%/LABEL_TYPE_NOT_SET');
+              this.sLicenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_NOT_SET');
             }
-            this.showTrialKeyHint(this.sTrialKeyHint !== '');*/
+            this.showTrialKeyHint(this.sTrialKeyHint !== '');
           }
       })
     },
@@ -163,20 +162,19 @@ export default {
           methodName: 'UpdateSettings',
           parameters,
         }).then(result => {
-          console.log(result)
           this.saving = false
           if (result === true) {
+            this.GetLicenseInfo()
+            this.GetTotalUsersCount()
             settings.saveLicenseSettings({
               licenseKey: parameters.LicenseKey
             })
-            console.log(true)
             notification.showReport(this.$t('COREWEBCLIENT.REPORT_SETTINGS_UPDATE_SUCCESS'))
           } else {
             notification.showError(this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED'))
           }
         }, response => {
           this.saving = false
-          console.log(response)
           notification.showError(errors.getTextFromResponse(response, this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED')))
         })
       }
