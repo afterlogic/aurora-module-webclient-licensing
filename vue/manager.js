@@ -1,6 +1,7 @@
 import settings from "../../LicensingWebclient/vue/settings";
 
 export default {
+	name: 'LicensingWebclient',
 	init (appData) {
 		settings.init(appData)
 	},
