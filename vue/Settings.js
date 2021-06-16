@@ -24,7 +24,7 @@ export default {
   },
   getLicenseSettings () {
     return {
-      licenseKey: settings?.licenseKey || false
+      licenseKey: settings.licenseKey
     }
   },
 }

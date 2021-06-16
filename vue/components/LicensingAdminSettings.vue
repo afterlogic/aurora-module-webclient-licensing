@@ -40,10 +40,10 @@
 </template>
 
 <script>
-import webApi from '../../../AdminPanelWebclient/vue/src/utils/web-api'
+import webApi from 'src/utils/web-api'
 import settings from '../../../LicensingWebclient/vue/settings'
-import notification from '../../../AdminPanelWebclient/vue/src/utils/notification'
-import errors from '../../../AdminPanelWebclient/vue/src/utils/errors'
+import notification from 'src/utils/notification'
+import errors from 'src/utils/errors'
 import UnsavedChangesDialog from 'src/components/UnsavedChangesDialog'
 import _ from 'lodash';
 
@@ -109,10 +109,7 @@ export default {
               break;
           }
         } else {
-          if (settings.LicenseKey === '') {
-            this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_NOT_SET');
-          }
-          this.showTrialKeyHint(this.sTrialKeyHint !== '');
+          this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_NOT_SET');
         }
       })
     },
@@ -132,7 +129,7 @@ export default {
     },
     populate () {
       const data = settings.getLicenseSettings()
-      this.key = data.licenseKey ? data.licenseKey : ''
+      this.key = data.licenseKey
     },
     save () {
       if (!this.saving) {
@@ -147,11 +144,12 @@ export default {
         }).then(result => {
           this.saving = false
           if (result === true) {
+            settings.saveLicenseSettings({
+              licenseKey: this.key
+            })
+            this.populate()
             this.GetLicenseInfo()
             this.GetTotalUsersCount()
-            settings.saveLicenseSettings({
-              licenseKey: parameters.LicenseKey
-            })
             notification.showReport(this.$t('COREWEBCLIENT.REPORT_SETTINGS_UPDATE_SUCCESS'))
           } else {
             notification.showError(this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED'))
