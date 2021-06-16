@@ -13,59 +13,54 @@
               </q-item-label>
             </div>
           </div>
-          <div class="row">
+          <div class="row q-mb-sm">
             <div class="col-2">{{ $t('LICENSINGWEBCLIENT.LABEL_LICENSING_KEY') }}</div>
             <div class="col-5">
-              <q-input outlined dense class="bg-white" type="textarea" v-model="sKey" />
-            </div>
-          </div>
-          <div class="row q-mt-sm q-mb-lg">
-            <div class="col-10">
-              <q-item-label caption>
-                {{ $t('LICENSINGWEBCLIENT.LABEL_LICENSING_PERMANENT_KEY_HINT') }}
-              </q-item-label>
+              <q-input outlined dense class="bg-white" type="textarea" v-model="key"/>
             </div>
           </div>
           <div class="row q-mb-md">
             <div class="col-2">{{ $t('LICENSINGWEBCLIENT.LABEL_LICENSING_USERS_NUMBER') }}</div>
-            <div class="col-9">{{ sUserCount }}</div>
+            <div class="col-9">{{ userCount }}</div>
           </div>
           <div class="row q-mb-md">
             <div class="col-2">{{ $t('LICENSINGWEBCLIENT.LABEL_LICENSING_TYPE') }}</div>
-            <div class="col-9"><b>{{sLicenseType}}</b></div>
+            <div class="col-9"><b>{{ licenseType }}</b></div>
           </div>
         </q-card-section>
       </q-card>
       <div class="q-pa-md text-right">
         <q-btn unelevated no-caps dense class="q-px-sm" :ripple="false" color="primary"
-               :label="saving ? $t('COREWEBCLIENT.ACTION_SAVE_IN_PROGRESS') : $t('COREWEBCLIENT.ACTION_SAVE')" @click="save"/>
+               :label="saving ? $t('COREWEBCLIENT.ACTION_SAVE_IN_PROGRESS') : $t('COREWEBCLIENT.ACTION_SAVE')"
+               @click="save"/>
       </div>
     </div>
-    <UnsavedChangesDialog ref="unsavedChangesDialog" />
+    <UnsavedChangesDialog ref="unsavedChangesDialog"/>
   </q-scroll-area>
 </template>
 
 <script>
-import webApi from "../../../AdminPanelWebclient/vue/src/utils/web-api";
-import settings from "../../../LicensingWebclient/vue/settings";
-import notification from "../../../AdminPanelWebclient/vue/src/utils/notification";
-import errors from "../../../AdminPanelWebclient/vue/src/utils/errors";
+import webApi from '../../../AdminPanelWebclient/vue/src/utils/web-api'
+import settings from '../../../LicensingWebclient/vue/settings'
+import notification from '../../../AdminPanelWebclient/vue/src/utils/notification'
+import errors from '../../../AdminPanelWebclient/vue/src/utils/errors'
 import UnsavedChangesDialog from 'src/components/UnsavedChangesDialog'
-import _ from "lodash";
+import _ from 'lodash';
+
 export default {
   name: 'Licensing',
   components: {
     UnsavedChangesDialog
   },
-  data() {
+  data () {
     return {
-      sKey: '',
-      sUserCount: 0,
+      key: '',
+      userCount: 0,
       saving: false,
-      sLicenseType: ''
+      licenseType: ''
     }
   },
-  mounted() {
+  mounted () {
     this.populate()
     this.GetLicenseInfo()
     this.GetTotalUsersCount()
@@ -78,82 +73,72 @@ export default {
     }
   },
   methods: {
-    GetLicenseInfo() {
+    GetLicenseInfo () {
       webApi.sendRequest({
         moduleName: 'Licensing',
         methodName: 'GetLicenseInfo',
       }).then(result => {
-          if (result)
-          {
-            switch (result.Type)
-            {
-              case 0:
-                this.sLicenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_UNLIM');
-                break;
-              case 1:
-                this.sLicenseType = this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_PERMANENT_PLURAL', result.Count, { 'COUNT' : result.Count });
-                break;
-              case 2:
-                this.sLicenseType = this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_DOMAINS_PLURAL',  result.Count, { 'COUNT' : result.Count });
-                break;
-              case 4:
-                if (result.ExpiresIn < 1)
-                {
-                  this.sLicenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_OUTDATED_INFO');
+        if (result) {
+          switch (result.Type) {
+            case 0:
+              this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_UNLIM');
+              break;
+            case 1:
+              this.licenseType = this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_PERMANENT_PLURAL', result.Count, { COUNT: result.Count });
+              break;
+            case 2:
+              this.licenseType = this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_DOMAINS_PLURAL', result.Count, { COUNT: result.Count });
+              break;
+            case 4:
+              if (result.ExpiresIn < 1) {
+                this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_OUTDATED_INFO');
+              }
+              break;
+            case 3:
+            case 10:
+              this.licenseType = result.Type === 3
+                ? this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_ANNUAL_PLURAL', result.Count, { COUNT: result.Count })
+                : this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_TRIAL');
+              if (result.ExpiresIn !== '*') {
+                if (result.ExpiresIn > 0) {
+                  this.licenseType += this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_EXPIRES_IN_PLURAL', result.ExpiresIn, { DAYS: result.ExpiresIn });
+                } else {
+                  this.licenseType += this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_EXPIRED') + ' ' + this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_OUTDATED_INFO');
                 }
-                break;
-              case 3:
-              case 10:
-                this.sLicenseType = result.Type === 3
-                    ? this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_ANNUAL_PLURAL',result.Count, { 'COUNT' : result.Count })
-                    : this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_TRIAL');
-                if (result.ExpiresIn !== '*')
-                {
-                  if (result.ExpiresIn > 0)
-                  {
-                    this.sLicenseType += this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_EXPIRES_IN_PLURAL', result.ExpiresIn, { 'DAYS' : result.ExpiresIn });
-                  }
-                  else
-                  {
-                    this.sLicenseType += this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_EXPIRED') + ' ' + this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_OUTDATED_INFO');
-                  }
-                }
-                break;
-            }
+              }
+              break;
           }
-          else
-          {
-            if (settings.LicenseKey === '')
-            {
-              this.sLicenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_NOT_SET');
-            }
-            this.showTrialKeyHint(this.sTrialKeyHint !== '');
+        } else {
+          if (settings.LicenseKey === '') {
+            this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_NOT_SET');
           }
+          this.showTrialKeyHint(this.sTrialKeyHint !== '');
+        }
       })
     },
-    GetTotalUsersCount() {
+    GetTotalUsersCount () {
       webApi.sendRequest({
         moduleName: 'Core',
         methodName: 'GetTotalUsersCount',
       }).then(result => {
         if (result !== false) {
-          this.sUserCount = result
+          this.userCount = result
         }
       })
     },
     hasChanges () {
       const data = settings.getLicenseSettings()
-      return this.sKey !== data.licenseKey
+      return this.key !== data.licenseKey
     },
     populate () {
       const data = settings.getLicenseSettings()
-      this.sKey = data.licenseKey ? data.licenseKey : ''
+      this.key = data.licenseKey ? data.licenseKey : ''
     },
-    save() {
+    save () {
       if (!this.saving) {
         this.saving = true
         const parameters = {
-          LicenseKey: this.sKey,
+          LicenseKey: this.key,
         }
         webApi.sendRequest({
           moduleName: 'Licensing',
