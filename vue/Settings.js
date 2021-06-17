@@ -3,8 +3,13 @@ import _ from 'lodash'
 class LicenseSettings {
   constructor (appData) {
     const licensing = appData.Licensing
+    const licensingWebclient = appData.LicensingWebclient
     if (!_.isEmpty(licensing)) {
       this.licenseKey = licensing.LicenseKey
+    }
+    if (!_.isEmpty(licensingWebclient)) {
+      this.permanentKeyLink = licensingWebclient.PermanentKeyLink
+      this.trialKeyLink = licensingWebclient.TrialKeyLink
     }
   }
 
@@ -24,7 +29,9 @@ export default {
   },
   getLicenseSettings () {
     return {
-      licenseKey: settings.licenseKey
+      licenseKey: settings.licenseKey,
+      permanentKeyLink: settings.permanentKeyLink,
+      trialKeyLink: settings.trialKeyLink
     }
   },
 }

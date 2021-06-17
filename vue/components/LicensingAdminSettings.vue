@@ -19,6 +19,16 @@
               <q-input outlined dense class="bg-white" type="textarea" v-model="key"/>
             </div>
           </div>
+          <div class="row q-my-md" v-if="showTrialKeyHint">
+            <q-item-label caption>
+            <div class="col-9">{{ trialKeyHint }}</div>
+            </q-item-label>
+          </div>
+          <div class="row q-my-md" v-if="permanentKeyHint !== ''">
+            <q-item-label caption>
+              <div class="col-9">{{ permanentKeyHint }}</div>
+            </q-item-label>
+          </div>
           <div class="row q-mb-md">
             <div class="col-2">{{ $t('LICENSINGWEBCLIENT.LABEL_LICENSING_USERS_NUMBER') }}</div>
             <div class="col-9">{{ userCount }}</div>
@@ -45,7 +55,7 @@ import settings from '../../../LicensingWebclient/vue/settings'
 import notification from 'src/utils/notification'
 import errors from 'src/utils/errors'
 import UnsavedChangesDialog from 'src/components/UnsavedChangesDialog'
-import _ from 'lodash';
+import _ from 'lodash'
 
 export default {
   name: 'Licensing',
@@ -57,13 +67,16 @@ export default {
       key: '',
       userCount: 0,
       saving: false,
-      licenseType: ''
+      licenseType: '',
+      trialKeyHint: '',
+      permanentKeyHint: '',
+      showTrialKeyHint: false
     }
   },
   mounted () {
-    this.populate()
     this.GetLicenseInfo()
     this.GetTotalUsersCount()
+    this.populate()
   },
   beforeRouteLeave (to, from, next) {
     if (this.hasChanges() && _.isFunction(this?.$refs?.unsavedChangesDialog?.openConfirmDiscardChangesDialog)) {
@@ -130,6 +143,9 @@ export default {
     populate () {
       const data = settings.getLicenseSettings()
       this.key = data.licenseKey
+      this.trialKeyHint = data.trialKeyLink ? this.$tc('LICENSINGWEBCLIENT.LABEL_LICENSING_TRIAL_KEY_HINT', data.trialKeyLink, { LINK: data.trialKeyLink }) : ''
+      this.permanentKeyHint = data.permanentKeyLink ? this.$tc('LICENSINGWEBCLIENT.LABEL_LICENSING_PERMANENT_KEY_HINT', data.permanentKeyLink, { LINK: data.permanentKeyLink }) : ''
+      this.showTrialKeyHint = data.licenseKey === '' && this.trialKeyHint !== ''
     },
     save () {
       if (!this.saving) {
