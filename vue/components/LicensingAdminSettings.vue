@@ -21,20 +21,20 @@
           </div>
           <div class="row q-my-md" v-if="showTrialKeyHint">
             <q-item-label caption>
-            <div class="col-9">{{ trialKeyHint }}</div>
+            <div class="col-9" v-html="trialKeyHint"/>
             </q-item-label>
           </div>
           <div class="row q-my-md" v-if="permanentKeyHint !== ''">
             <q-item-label caption>
-              <div class="col-9">{{ permanentKeyHint }}</div>
+              <div class="col-9" v-html="permanentKeyHint" />
             </q-item-label>
           </div>
           <div class="row q-mb-md">
-            <div class="col-2">{{ $t('LICENSINGWEBCLIENT.LABEL_LICENSING_USERS_NUMBER') }}</div>
+            <div class="col-2" v-t="'LICENSINGWEBCLIENT.LABEL_LICENSING_USERS_NUMBER'" />
             <div class="col-9">{{ userCount }}</div>
           </div>
           <div class="row q-mb-md">
-            <div class="col-2">{{ $t('LICENSINGWEBCLIENT.LABEL_LICENSING_TYPE') }}</div>
+            <div class="col-2" v-t="'LICENSINGWEBCLIENT.LABEL_LICENSING_TYPE'" />
             <div class="col-9"><b>{{ licenseType }}</b></div>
           </div>
         </q-card-section>
@@ -74,8 +74,8 @@ export default {
     }
   },
   mounted () {
-    this.GetLicenseInfo()
-    this.GetTotalUsersCount()
+    this.getLicenseInfo()
+    this.getTotalUsersCount()
     this.populate()
   },
   beforeRouteLeave (to, from, next) {
@@ -86,7 +86,7 @@ export default {
     }
   },
   methods: {
-    GetLicenseInfo () {
+    getLicenseInfo () {
       webApi.sendRequest({
         moduleName: 'Licensing',
         methodName: 'GetLicenseInfo',
@@ -94,39 +94,39 @@ export default {
         if (result) {
           switch (result.Type) {
             case 0:
-              this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_UNLIM');
-              break;
+              this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_UNLIM')
+              break
             case 1:
-              this.licenseType = this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_PERMANENT_PLURAL', result.Count, { COUNT: result.Count });
-              break;
+              this.licenseType = this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_PERMANENT_PLURAL', result.Count, { COUNT: result.Count })
+              break
             case 2:
-              this.licenseType = this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_DOMAINS_PLURAL', result.Count, { COUNT: result.Count });
-              break;
+              this.licenseType = this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_DOMAINS_PLURAL', result.Count, { COUNT: result.Count })
+              break
             case 4:
               if (result.ExpiresIn < 1) {
-                this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_OUTDATED_INFO');
+                this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_OUTDATED_INFO')
               }
-              break;
+              break
             case 3:
             case 10:
               this.licenseType = result.Type === 3
                 ? this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_ANNUAL_PLURAL', result.Count, { COUNT: result.Count })
-                : this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_TRIAL');
+                : this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_TRIAL')
               if (result.ExpiresIn !== '*') {
                 if (result.ExpiresIn > 0) {
-                  this.licenseType += this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_EXPIRES_IN_PLURAL', result.ExpiresIn, { DAYS: result.ExpiresIn });
+                  this.licenseType += this.$tc('LICENSINGWEBCLIENT.LABEL_TYPE_EXPIRES_IN_PLURAL', result.ExpiresIn, { DAYS: result.ExpiresIn })
                 } else {
-                  this.licenseType += this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_EXPIRED') + ' ' + this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_OUTDATED_INFO');
+                  this.licenseType += this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_EXPIRED') + ' ' + this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_OUTDATED_INFO')
                 }
               }
-              break;
+              break
           }
         } else {
-          this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_NOT_SET');
+          this.licenseType = this.$t('LICENSINGWEBCLIENT.LABEL_TYPE_NOT_SET')
         }
       })
     },
-    GetTotalUsersCount () {
+    getTotalUsersCount () {
       webApi.sendRequest({
         moduleName: 'Core',
         methodName: 'GetTotalUsersCount',
@@ -164,8 +164,8 @@ export default {
               licenseKey: this.key
             })
             this.populate()
-            this.GetLicenseInfo()
-            this.GetTotalUsersCount()
+            this.getLicenseInfo()
+            this.getTotalUsersCount()
             notification.showReport(this.$t('COREWEBCLIENT.REPORT_SETTINGS_UPDATE_SUCCESS'))
           } else {
             notification.showError(this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED'))
@@ -180,6 +180,12 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+::v-deep a {
+  text-decoration: none;
+  color: var(--q-color-primary);
+}
+::v-deep a:hover {
+  text-decoration: underline;
+}
 </style>
