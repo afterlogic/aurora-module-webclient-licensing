@@ -31,15 +31,15 @@
           </div>
           <div class="row q-mb-md">
             <div class="col-2" v-t="'LICENSINGWEBCLIENT.LABEL_LICENSING_USERS_NUMBER'" />
-            <div class="col-9">{{ userCount }}</div>
+            <div class="col-5"><b>{{ userCount }}</b></div>
           </div>
           <div class="row q-mb-md">
             <div class="col-2" v-t="'LICENSINGWEBCLIENT.LABEL_LICENSING_TYPE'" />
-            <div class="col-9"><b>{{ licenseType }}</b></div>
+            <div class="col-5"><b>{{ licenseType }}</b></div>
           </div>
         </q-card-section>
       </q-card>
-      <div class="q-pa-md text-right">
+      <div class="q-pt-md text-right">
         <q-btn unelevated no-caps dense class="q-px-sm" :ripple="false" color="primary"
                :label="saving ? $t('COREWEBCLIENT.ACTION_SAVE_IN_PROGRESS') : $t('COREWEBCLIENT.ACTION_SAVE')"
                @click="save"/>
