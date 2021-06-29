@@ -183,7 +183,7 @@ export default {
 <style scoped lang="scss">
 ::v-deep a {
   text-decoration: none;
-  color: var(--q-color-primary);
+  color: darken($primary, 20%);
 }
 ::v-deep a:hover {
   text-decoration: underline;
