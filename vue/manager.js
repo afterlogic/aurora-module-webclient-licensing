@@ -15,7 +15,7 @@ export default {
         tabName: 'licensing',
         title: 'LICENSINGWEBCLIENT.LABEL_LICENSING_SETTINGS_TAB',
         component () {
-          return import('src/../../../LicensingWebclient/vue/components/LicensingAdminSettings')
+          return import('./components/LicensingAdminSettings')
         },
       },
     ]
