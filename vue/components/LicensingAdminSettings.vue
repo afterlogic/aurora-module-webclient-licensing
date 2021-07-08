@@ -16,7 +16,7 @@
           <div class="row q-mb-sm">
             <div class="col-2">{{ $t('LICENSINGWEBCLIENT.LABEL_LICENSING_KEY') }}</div>
             <div class="col-5 q-ml-md">
-              <q-input outlined dense class="bg-white" type="textarea" v-model="key"/>
+              <q-input outlined dense class="bg-white textarea" type="textarea" v-model="key"/>
             </div>
           </div>
           <div class="row q-my-md" v-if="showTrialKeyHint">
@@ -187,5 +187,8 @@ export default {
 }
 ::v-deep a:hover {
   text-decoration: underline;
+}
+.textarea {
+  border-radius: 6px;
 }
 </style>
