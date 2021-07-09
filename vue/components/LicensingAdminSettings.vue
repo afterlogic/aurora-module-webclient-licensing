@@ -15,8 +15,8 @@
           </div>
           <div class="row q-mb-sm">
             <div class="col-2">{{ $t('LICENSINGWEBCLIENT.LABEL_LICENSING_KEY') }}</div>
-            <div class="col-5 q-ml-md">
-              <q-input outlined dense bg-color="white" type="textarea" v-model="key"/>
+            <div class="col-5 q-ml-md textarea-licensing">
+              <q-input outlined dense class="bg-white" type="textarea" v-model="key"/>
             </div>
           </div>
           <div class="row q-my-md" v-if="showTrialKeyHint">
