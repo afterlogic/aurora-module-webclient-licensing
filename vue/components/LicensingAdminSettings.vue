@@ -138,7 +138,7 @@ export default {
     },
     hasChanges () {
       const data = settings.getLicenseSettings()
-      return this.$store.getters['user/isUserSuperAdmin'] && this.key !== data.licenseKey
+      return this.key !== data.licenseKey
     },
     populate () {
       const data = settings.getLicenseSettings()
