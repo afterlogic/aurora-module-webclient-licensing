@@ -45,6 +45,18 @@
                @click="save"/>
       </div>
     </div>
+    <q-dialog v-model="showDialog">
+      <q-card>
+        <q-card-section >
+          {{$t('LICENSINGWEBCLIENT.INFO_LICENSE_KEY_CHANGED')}}
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn unelevated no-caps dense :ripple="false" color="primary" :label="$t('COREWEBCLIENT.ACTION_OK')"
+                 v-close-popup @click="reloadUI" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-scroll-area>
 </template>
 
@@ -66,7 +78,8 @@ export default {
       licenseType: '',
       trialKeyHint: '',
       permanentKeyHint: '',
-      showTrialKeyHint: false
+      showTrialKeyHint: false,
+      showDialog: false,
     }
   },
 
@@ -156,6 +169,7 @@ export default {
       this.permanentKeyHint = data.permanentKeyLink ? this.$tc('LICENSINGWEBCLIENT.LABEL_LICENSING_PERMANENT_KEY_HINT', data.permanentKeyLink, { LINK: data.permanentKeyLink }) : ''
       this.showTrialKeyHint = data.licenseKey === '' && this.trialKeyHint !== ''
     },
+
     save () {
       if (!this.saving) {
         this.saving = true
@@ -169,13 +183,11 @@ export default {
         }).then(result => {
           this.saving = false
           if (result === true) {
-            settings.saveLicenseSettings({
-              licenseKey: this.key
-            })
-            this.populate()
-            this.getLicenseInfo()
-            this.getTotalUsersCount()
             notification.showReport(this.$t('COREWEBCLIENT.REPORT_SETTINGS_UPDATE_SUCCESS'))
+            const data = settings.getLicenseSettings()
+            if (this.key !== data.licenseKey) {
+              this.showDialog = true
+            }
           } else {
             notification.showError(this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED'))
           }
@@ -184,7 +196,11 @@ export default {
           notification.showError(errors.getTextFromResponse(response, this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED')))
         })
       }
-    }
+    },
+
+    reloadUI () {
+      window.location.reload()
+    },
   }
 }
 </script>

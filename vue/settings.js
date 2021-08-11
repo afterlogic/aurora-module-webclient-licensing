@@ -1,23 +1,17 @@
-import _ from 'lodash'
+import { i18n } from 'boot/i18n'
+import store from 'src/store'
+
+import notification from 'src/utils/notification'
+import typesUtils from 'src/utils/types'
 
 class LicenseSettings {
   constructor (appData) {
-    const licensing = appData.Licensing
-    const licensingWebclient = appData.LicensingWebclient
-    if (!_.isEmpty(licensing)) {
-      this.licenseKey = licensing.LicenseKey
-    }
-    if (!_.isEmpty(licensingWebclient)) {
-      this.permanentKeyLink = licensingWebclient.PermanentKeyLink
-      this.trialKeyLink = licensingWebclient.TrialKeyLink
-    }
-  }
+    const licensingData = typesUtils.pObject(appData.Licensing)
+    this.licenseKey = typesUtils.pString(licensingData.LicenseKey)
 
-  saveLicenseSettings ({ licenseKey }) {
-    if (this.licenseKey !== licenseKey) {
-      this.licenseKey = licenseKey
-      window.location.reload()
-    }
+    const licensingWebclientData = typesUtils.pObject(appData.LicensingWebclient)
+    this.permanentKeyLink = typesUtils.pString(licensingWebclientData.PermanentKeyLink)
+    this.trialKeyLink = typesUtils.pString(licensingWebclientData.TrialKeyLink)
   }
 }
 
@@ -26,10 +20,11 @@ let settings = null
 export default {
   init (appData) {
     settings = new LicenseSettings(appData)
+    if (settings.licenseKey === '' && store.getters['user/isUserSuperAdmin']) {
+      notification.showError(i18n.tc('LICENSINGWEBCLIENT.ERROR_LICENSE_KEY_MISSING'), 0)
+    }
   },
-  saveLicenseSettings (data) {
-    settings.saveLicenseSettings(data)
-  },
+
   getLicenseSettings () {
     return {
       licenseKey: settings.licenseKey,
