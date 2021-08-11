@@ -14,7 +14,10 @@ class LicenseSettings {
   }
 
   saveLicenseSettings ({ licenseKey }) {
-    this.licenseKey = licenseKey
+    if (this.licenseKey !== licenseKey) {
+      this.licenseKey = licenseKey
+      window.location.reload()
+    }
   }
 }
 
