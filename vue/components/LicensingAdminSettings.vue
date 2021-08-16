@@ -6,7 +6,7 @@
       </div>
       <q-card flat bordered class="card-edit-settings">
         <q-card-section>
-          <div class="row q-mt-sm q-mb-lg">
+          <div class="row q-mb-lg">
             <div class="col-10">
               <q-item-label caption>
                 {{ $t('LICENSINGWEBCLIENT.LABEL_LICENSING_HINT') }}
@@ -33,7 +33,7 @@
             <div class="col-2" v-t="'LICENSINGWEBCLIENT.LABEL_LICENSING_USERS_NUMBER'" />
             <div class="col-5 q-ml-md"><b>{{ userCount }}</b></div>
           </div>
-          <div class="row q-mb-md">
+          <div class="row">
             <div class="col-2" v-t="'LICENSINGWEBCLIENT.LABEL_LICENSING_TYPE'" />
             <div class="col-5 q-ml-md"><b>{{ licenseType }}</b></div>
           </div>
