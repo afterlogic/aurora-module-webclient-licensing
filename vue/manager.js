@@ -13,10 +13,10 @@ export default {
     return [
       {
         tabName: 'licensing',
-        title: 'LICENSINGWEBCLIENT.LABEL_LICENSING_SETTINGS_TAB',
-        component () {
-          return import('./components/LicensingAdminSettings')
-        },
+        tabTitle: 'LICENSINGWEBCLIENT.LABEL_LICENSING_SETTINGS_TAB',
+        tabRouteChildren: [
+          { path: 'licensing', component: () => import('./components/LicensingAdminSettings') },
+        ],
       },
     ]
   },
