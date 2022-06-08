@@ -1,26 +1,26 @@
 {
-  "Disabled": [
-    false,
-    "bool"
-  ],
-  "Disabled_Description": [
-    "",
-    "string"
-  ],
-  "TrialKeyLink": [
-    "",
-    "string"
-  ],
-  "TrialKeyLink_Description": [
-    "",
-    "string"
-  ],
-  "PermanentKeyLink": [
-    "",
-    "string"
-  ],
-  "PermanentKeyLink_Description": [
-    "",
-    "string"
-  ]
+	"Disabled": [
+		false,
+		"bool"
+	],
+	"Disabled_Description": [
+		"",
+		"string"
+	],
+	"TrialKeyLink": [
+		"",
+		"string"
+	],
+	"TrialKeyLink_Description": [
+		"",
+		"string"
+	],
+	"PermanentKeyLink": [
+		"",
+		"string"
+	],
+	"PermanentKeyLink_Description": [
+		"",
+		"string"
+	]
 }
