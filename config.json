@@ -4,7 +4,7 @@
 		"bool"
 	],
 	"Disabled_Description": [
-		"",
+		"Setting to true disables the module",
 		"string"
 	],
 	"TrialKeyLink": [
@@ -12,7 +12,7 @@
 		"string"
 	],
 	"TrialKeyLink_Description": [
-		"",
+		"URL of webpage for getting a trial key",
 		"string"
 	],
 	"PermanentKeyLink": [
@@ -20,7 +20,7 @@
 		"string"
 	],
 	"PermanentKeyLink_Description": [
-		"",
+		"URL of the product license purchase page",
 		"string"
 	]
 }
