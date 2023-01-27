@@ -16,17 +16,17 @@ namespace Aurora\Modules\LicensingWebclient;
  */
 class Module extends \Aurora\System\Module\AbstractWebclientModule
 {
-	protected $LicenseKey = null;
-	
-	public function GetSettings()
-	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
+    protected $LicenseKey = null;
 
-		$aModuleSettings = array(
-			'TrialKeyLink' => $this->getConfig('TrialKeyLink', false),
-			'PermanentKeyLink' => $this->getConfig('PermanentKeyLink', false)
-		);
-		
-		return $aModuleSettings;
-	}
+    public function GetSettings()
+    {
+        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
+
+        $aModuleSettings = array(
+            'TrialKeyLink' => $this->getConfig('TrialKeyLink', false),
+            'PermanentKeyLink' => $this->getConfig('PermanentKeyLink', false)
+        );
+
+        return $aModuleSettings;
+    }
 }
