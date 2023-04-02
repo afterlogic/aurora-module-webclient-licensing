@@ -93,7 +93,7 @@ export default {
   },
 
   beforeRouteLeave (to, from, next) {
-    this.doBeforeRouteLeave(to, from, next)
+    this.$root.doBeforeRouteLeave(to, from, next)
   },
 
   methods: {
@@ -145,6 +145,9 @@ export default {
         if (result !== false) {
           this.userCount = result
         }
+      })
+      .catch(r => {
+    		console.log('error');
       })
     },
 
