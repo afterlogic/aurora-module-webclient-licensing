@@ -21,7 +21,7 @@ export default {
   init (appData) {
     settings = new LicenseSettings(appData)
     if (settings.licenseKey === '' && store.getters['user/isUserSuperAdmin']) {
-      notification.showError(i18n.tc('LICENSINGWEBCLIENT.ERROR_LICENSE_KEY_MISSING'), 0)
+      notification.showError(i18n.global.tc('LICENSINGWEBCLIENT.ERROR_LICENSE_KEY_MISSING'), 0)
     }
   },
 
