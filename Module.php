@@ -18,6 +18,15 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 {
     protected $LicenseKey = null;
 
+    /**
+     *
+     * @return Module
+     */
+    public static function Decorator()
+    {
+        return parent::Decorator();
+    }
+
     public function GetSettings()
     {
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
