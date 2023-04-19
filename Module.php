@@ -12,6 +12,8 @@ namespace Aurora\Modules\LicensingWebclient;
  * @license https://afterlogic.com/products/common-licensing Afterlogic Software License
  * @copyright Copyright (c) 2023, Afterlogic Corp.
  *
+ * @property Settings $oModuleSettings
+ *
  * @package Modules
  */
 class Module extends \Aurora\System\Module\AbstractWebclientModule
@@ -41,8 +43,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 
         $aModuleSettings = array(
-            'TrialKeyLink' => $this->getConfig('TrialKeyLink', false),
-            'PermanentKeyLink' => $this->getConfig('PermanentKeyLink', false)
+            'TrialKeyLink' => $this->oModuleSettings->TrialKeyLink,
+            'PermanentKeyLink' => $this->oModuleSettings->PermanentKeyLink
         );
 
         return $aModuleSettings;
