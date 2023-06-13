@@ -205,12 +205,10 @@ export default {
       const data = settings.getLicenseSettings()
       this.key = data.licenseKey
       this.trialKeyHint = data.trialKeyLink
-        ? this.$tc('LICENSINGWEBCLIENT.LABEL_LICENSING_TRIAL_KEY_HINT', data.trialKeyLink, { LINK: data.trialKeyLink })
+        ? this.$t('LICENSINGWEBCLIENT.LABEL_LICENSING_TRIAL_KEY_HINT', { LINK: data.trialKeyLink })
         : ''
       this.permanentKeyHint = data.permanentKeyLink
-        ? this.$tc('LICENSINGWEBCLIENT.LABEL_LICENSING_PERMANENT_KEY_HINT', data.permanentKeyLink, {
-            LINK: data.permanentKeyLink,
-          })
+        ? this.$t('LICENSINGWEBCLIENT.LABEL_LICENSING_PERMANENT_KEY_HINT', { LINK: data.permanentKeyLink })
         : ''
       this.showTrialKeyHint = data.licenseKey === '' && this.trialKeyHint !== ''
     },
