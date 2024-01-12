@@ -287,11 +287,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-::v-deep a {
+:deep(a) {
   text-decoration: none;
   color: darken($primary, 20%);
 }
-::v-deep a:hover {
+:deep(a:hover) {
   text-decoration: underline;
 }
 </style>
