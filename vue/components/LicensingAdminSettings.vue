@@ -102,15 +102,15 @@ export default {
       permanentKeyHint: '',
       showTrialKeyHint: false,
       showDialog: false,
-      getLicenseInfoRequestСontroller: null,
-      getTotalUsersCountRequestСontroller: null,
+      getLicenseInfoRequestController: null,
+      getTotalUsersCountRequestController: null,
     }
   },
 
   mounted() {
     this.abortRequestsControllers()
-    this.getLicenseInfoRequestСontroller = new AbortController()
-    this.getTotalUsersCountRequestСontroller = new AbortController()
+    this.getLicenseInfoRequestController = new AbortController()
+    this.getTotalUsersCountRequestController = new AbortController()
     this.getLicenseInfo()
     this.getTotalUsersCount()
     this.populate()
@@ -126,11 +126,11 @@ export default {
 
   methods: {
     abortRequestsControllers() {
-      if (this.getLicenseInfoRequestСontroller) {
-        this.getLicenseInfoRequestСontroller.abort()
+      if (this.getLicenseInfoRequestController) {
+        this.getLicenseInfoRequestController.abort()
       }
-      if (this.getTotalUsersCountRequestСontroller) {
-        this.getTotalUsersCountRequestСontroller.abort()
+      if (this.getTotalUsersCountRequestController) {
+        this.getTotalUsersCountRequestController.abort()
       }
     },
 
@@ -139,7 +139,7 @@ export default {
         .sendRequest({
           moduleName: 'Licensing',
           methodName: 'GetLicenseInfo',
-          signal: this.getLicenseInfoRequestСontroller.signal,
+          signal: this.getLicenseInfoRequestController.signal,
         })
         .then(
           (result) => {
@@ -201,7 +201,7 @@ export default {
         .sendRequest({
           moduleName: 'Core',
           methodName: 'GetTotalUsersCount',
-          signal: this.getTotalUsersCountRequestСontroller.signal,
+          signal: this.getTotalUsersCountRequestController.signal,
         })
         .then(
           (result) => {
